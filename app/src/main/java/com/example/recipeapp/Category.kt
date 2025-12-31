@@ -20,7 +20,7 @@ interface ApiService {
 
 object RetrofitInstance {
     val api: ApiService by lazy {
-        Retrofit.Builder().baseUrl("www.themealdb.com/api/json/v1/1/").addConverterFactory(
+        Retrofit.Builder().baseUrl("https://www.themealdb.com/api/json/v1/1/").addConverterFactory(
             GsonConverterFactory.create()
         ).build().create(ApiService::class.java)
     }
