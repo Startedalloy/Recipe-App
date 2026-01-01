@@ -1,5 +1,4 @@
 package com.example.recipeapp
-
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.aspectRatio
@@ -27,20 +26,22 @@ fun RecipeView() {
     val viewState = recipeModel.categoriesState
 
     if (viewState.value.loading) {
-        CircularProgressIndicator()
+        CircularProgressIndicator(strokeWidth = 8.dp)
     } else if (!viewState.value.loading) {
         MainScreen(viewState.value.list)
     } else {
-        Text("Unknown Error")
+       Problem()
     }
 
 }
 
 @Composable
 fun MainScreen(categories: List<Category>) {
-    LazyVerticalGrid(GridCells.Fixed(2), modifier = Modifier
-        .fillMaxSize()
-        .padding(5.dp)) {
+    LazyVerticalGrid(
+        GridCells.Fixed(2), modifier = Modifier
+            .fillMaxSize()
+            .padding(5.dp)
+    ) {
         items(categories) { category ->
             CategoryScreen(category = category)
 
@@ -67,6 +68,20 @@ fun CategoryScreen(category: Category) {
             modifier = Modifier
                 .padding(top = 5.dp)
                 .align(Alignment.CenterHorizontally)
+        )
+    }
+}
+
+
+@Composable
+fun Problem() {
+    Column(Modifier.fillMaxSize(), horizontalAlignment = Alignment.CenterHorizontally) {
+
+        Text(
+            "Something Went Wrong",
+            fontWeight = FontWeight.Bold,
+            fontSize = 24.sp,
+            modifier = Modifier
         )
     }
 }
