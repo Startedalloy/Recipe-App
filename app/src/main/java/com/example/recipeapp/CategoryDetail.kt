@@ -53,6 +53,6 @@ fun CategoryDetail(category: Category) {
                 .verticalScroll(rememberScrollState()),
             elevation = CardDefaults.cardElevation(8.dp),
             colors = CardDefaults.cardColors(Color.White)
-        ) { Text(category.strCategoryDescription) }
+        ) { Text(category.strCategoryDescription, modifier = Modifier.padding(8.dp), fontSize = 18.sp) }
     }
 }

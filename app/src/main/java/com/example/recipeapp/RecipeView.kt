@@ -1,5 +1,6 @@
 package com.example.recipeapp
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
@@ -17,18 +18,15 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.lifecycle.viewmodel.compose.viewModel
 import coil.compose.rememberAsyncImagePainter
 
 @Composable
-fun RecipeView() {
-    val recipeModel: MainViewModel = viewModel()
-    val viewState = recipeModel.categoriesState
+fun RecipeView(viewState:MainViewModel.RecipeState ,navToDetail:(Category) -> Unit) {
 
-    if (viewState.value.loading) {
+    if (viewState.loading) {
         CircularProgressIndicator(strokeWidth = 8.dp)
-    } else if (!viewState.value.loading) {
-        MainScreen(viewState.value.list)
+    } else if (!viewState.loading) {
+        MainScreen(viewState.list,navToDetail)
     } else {
        Problem()
     }
@@ -36,14 +34,14 @@ fun RecipeView() {
 }
 
 @Composable
-fun MainScreen(categories: List<Category>) {
+fun MainScreen(categories: List<Category>,navToDetail:(Category) -> Unit) {
     LazyVerticalGrid(
         GridCells.Fixed(2), modifier = Modifier
             .fillMaxSize()
             .padding(5.dp)
     ) {
         items(categories) { category ->
-            CategoryScreen(category = category)
+            CategoryScreen(category = category,navToDetail)
 
         }
 
@@ -51,8 +49,8 @@ fun MainScreen(categories: List<Category>) {
 }
 
 @Composable
-fun CategoryScreen(category: Category) {
-    Column(Modifier.fillMaxWidth()) {
+fun CategoryScreen(category: Category,navToDetail:(Category) -> Unit) {
+    Column(Modifier.fillMaxWidth().clickable { navToDetail(category) }) {
         Image(
             painter = rememberAsyncImagePainter(category.strCategoryThumb),
             contentDescription = "Picture Of Food",
